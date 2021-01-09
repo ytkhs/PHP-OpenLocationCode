@@ -2,5 +2,14 @@
 
 class PlusCode
 {
-    
+    const CODE_ALPHABETS = '23456789CFGHJMPQRVWX';
+    const PADDING = 0;
+    const SEPARATOR = '+';
+    const SEPARATOR_POSITION = 8;
+    const MAX_CODE_LENGTH = 15;
+    const PAIR_CODE_LENGTH = 10;
+    const PAIR_CODE_PRECISION = 8000;
+
+    const LAT_GRID_PRECISION = 5**(MAX_CODE_LENGTH - PAIR_CODE_LENGTH);
+    const LNG_GRID_PRECISION = 4**(MAX_CODE_LENGTH - PAIR_CODE_LENGTH);
 }
