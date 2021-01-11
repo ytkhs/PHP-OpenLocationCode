@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__. '/PlusCode.php';
+require_once __DIR__. '/CodeArea.php';
 require_once __DIR__. '/OpenLocationCodeValidator.php';
 
 class OpenLocationCode
@@ -77,7 +78,7 @@ class OpenLocationCode
         if ($codeLength > PlusCode::PAIR_CODE_LENGTH) {
             for($i=0; $i<=PlusCode::MAX_CODE_LENGTH - PlusCode::PAIR_CODE_LENGTH - 1; $i++) {
                 $index = ($latVal % 5) * 4 + ($lngVal % 4);
-                $code = PlusCode::CODE_ALPHABETS[$aindex] . $code;
+                $code = PlusCode::CODE_ALPHABETS[$index] . $code;
                 $latVal = $latVal / 5;
                 $lngVal = $lngVal / 4;
             }
@@ -104,8 +105,50 @@ class OpenLocationCode
         return substr($code, 0, $codeLength) . $str_pad('', PlusCode::SEPARATOR_POSITION - $codeLength) . '+';
     }
 
-    public function decode()
+    public function decode($code)
     {
-        return __FUNCTION__;
+        if (!$this->isFullCode($code)) {
+            throw new Exception("Open Location Code(Plus+Codes) is not a valid full code: $code");
+        }
+
+
+        $code = str_replace(PlusCode::SEPARATOR, '', $code);
+        $code = preg_replace('/' . PlusCode::PADDING . '+/', '', $code);
+        $code = strtoupper($code);
+
+        $southLatitude = -90.0;
+        $westLongitude = -180.0;
+
+        $latResolution = 400;
+        $lngResolution = 400;
+
+        $digit = 0;
+        $table = PlusCode::charLookupTable();
+
+        while($digit < min(strlen($code), PlusCode::MAX_CODE_LENGTH)) {
+            if ($digit < PlusCode::PAIR_CODE_LENGTH) {
+                $latResolution /= 20;
+                $lngResolution /= 20;
+                $latIndex = ord(substr($code, $digit, 1));
+                $southLatitude += $latResolution * $table[$latIndex];
+
+                $lonIndex = ord(substr($code, $digit + 1, 1));
+                $westLongitude += $lngResolution * $table[$lonIndex];
+                $digit += 2;
+            } else {
+                $latResolution /= 5;
+                $lngResolution /= 4;
+
+                $index = ord(substr($code, $digit, 1));
+                $row = $table[$index] / 4;
+                $column = $table[$index] % 4;
+
+                $southLatitude += $latResolution * $row;
+                $westLongitude += $lngResolution * $column;
+                $digit += 1;
+            }
+        }
+
+        return new CodeArea($southLatitude, $westLongitude, $latResolution, $lngResolution, $digit);
     }
 }

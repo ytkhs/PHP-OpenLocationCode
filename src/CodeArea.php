@@ -2,34 +2,34 @@
 
 class CodeArea
 {
-    private $south_latitude;
-    private $west_longitude;
-    private $latitude_height;
-    private $longitude_width;
-    private $code_length;
+    private $southLatitude;
+    private $westLongitude;
+    private $latitudeHeight;
+    private $longitudeWidth;
+    private $codeLength;
 
     private $latitude_center;
     private $longitude_center;
 
-    public function __construct($south_latitude, $west_longitude, $latitude_height, $longitude_width, $code_length)
+    public function __construct($southLatitude, $westLongitude, $latitudeHeight, $longitudeWidth, $codeLength)
     {
-        $this->south_latitude  = $south_latitude;
-        $this->west_longitude  = $west_longitude;
-        $this->latitude_height = $latitude_height;
-        $this->longitude_width = $longitude_width;
-        $this->code_length     = $code_length;
+        $this->southLatitude  = $southLatitude;
+        $this->westLongitude  = $westLongitude;
+        $this->latitudeHeight = $latitudeHeight;
+        $this->longitudeWidth = $longitudeWidth;
+        $this->codeLength     = $codeLength;
 
-        $this->latitude_center  = south_latitude + latitude_height / 2.0;
-        $this->longitude_center = west_longitude + longitude_width / 2.0;
+        $this->latitude_center  = $southLatitude + $latitudeHeight / 2.0;
+        $this->longitude_center = $westLongitude + $longitudeWidth / 2.0;
     }
 
-    public function north_latitude()
+    public function northLatitude()
     {
-        return $this->south_latitude + $this->latitude_height;
+        return $this->southLatitude + $this->latitudeHeight;
     }
 
-    public function east_longitude()
+    public function eastLongitude()
     {
-        return $this->west_longitude + $this->longitude_width;
+        return $this->westLongitude + $this->longitudeWidth;
     }
 }
