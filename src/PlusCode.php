@@ -10,8 +10,8 @@ class PlusCode
     const PAIR_CODE_LENGTH = 10;
     const PAIR_CODE_PRECISION = 8000;
 
-    const LAT_GRID_PRECISION = 5**(MAX_CODE_LENGTH - PAIR_CODE_LENGTH);
-    const LNG_GRID_PRECISION = 4**(MAX_CODE_LENGTH - PAIR_CODE_LENGTH);
+    const LAT_GRID_PRECISION = 5**(self::MAX_CODE_LENGTH - self::PAIR_CODE_LENGTH);
+    const LNG_GRID_PRECISION = 4**(self::MAX_CODE_LENGTH - self::PAIR_CODE_LENGTH);
 
     public static function charLookupTable()
     {
