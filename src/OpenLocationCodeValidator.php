@@ -3,7 +3,7 @@ require_once __DIR__. '/PlusCode.php';
 
 class OpenLocationCodeValidator
 {
-    public static function isValidCode($code)
+    public static function isValid($code)
     {
         return self::isValidLength($code)
             && self::isValidSeparator($code)

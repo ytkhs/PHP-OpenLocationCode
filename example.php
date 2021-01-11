@@ -17,4 +17,4 @@ $code_area = $olc->decode($code);
 # code = olc.encode(47.0000625,8.0000625, 16)
 # => "8FVC2222+22GCCCCC"
 
-dump($olc->isValidCode("8FVC2222+22GCCCCC"));
+dump($olc->isShortCode("8FVC2222+22GCCCCC"));
