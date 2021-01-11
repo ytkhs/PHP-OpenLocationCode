@@ -1,32 +1,18 @@
 <?php
 require_once __DIR__. '/PlusCode.php';
 
-class OpenLocationCode
+class OpenLocationCodeValidator
 {
-    public function isValidCode($code)
+    public static function isValidCode($code)
     {
-        return $this->isValidLength($code)
-            && $this->isValidSeparator($code)
-            && $this->isValidPadding($code)
-            && $this->isValidCharacter($code)
+        return self::isValidLength($code)
+            && self::isValidSeparator($code)
+            && self::isValidPadding($code)
+            && self::isValidCharacter($code)
         ;
     }
 
-    public function isShortCode($code)
-    {
-    }
-
-    public function encode()
-    {
-        return __FUNCTION__;
-    }
-
-    public function decode()
-    {
-        return __FUNCTION__;
-    }
-
-    public function isValidLength($code)
+    public static function isValidLength($code)
     {
         if (is_null($code)) {
             return false;
@@ -46,9 +32,9 @@ class OpenLocationCode
         return true;
     }
 
-    public function isValidSeparator($code)
+    public static function isValidSeparator($code)
     {
-        if (substr_count($code, '+') !== 1) {
+        if (substr_count($code, PlusCode::SEPARATOR) !== 1) {
             return false;
         }
 
@@ -65,7 +51,7 @@ class OpenLocationCode
         return true;
     }
 
-    public function isValidPadding($code)
+    public static function isValidPadding($code)
     {
         if (strpos($code, PlusCode::PADDING) !== false) {
 
@@ -98,7 +84,7 @@ class OpenLocationCode
         return true;
     }
 
-    public function isValidCharacter($code)
+    public static function isValidCharacter($code)
     {
         $table = PlusCode::charLookupTable();
         foreach(str_split($code) as $c) {
